@@ -230,9 +230,25 @@ async function handleChat(req, res) {
 }
 
 // ---- server -----------------------------------------------------------------
+// When the frontend is hosted separately (e.g. GitHub Pages), the browser makes
+// a cross-origin call to /api/chat, so we need CORS. Restrict to ALLOWED_ORIGIN
+// in production; defaults to "*" for easy local/dev use.
+const ALLOW_ORIGIN = process.env.ALLOWED_ORIGIN || "*";
+function applyCors(res) {
+  res.setHeader("Access-Control-Allow-Origin", ALLOW_ORIGIN);
+  res.setHeader("Vary", "Origin");
+}
+
 createServer((req, res) => {
   const { pathname } = new URL(req.url, `http://${req.headers.host}`);
   if (pathname === "/api/chat") {
+    applyCors(res);
+    if (req.method === "OPTIONS") {
+      res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+      res.setHeader("Access-Control-Max-Age", "86400");
+      res.writeHead(204); res.end(); return;
+    }
     if (req.method !== "POST") { res.writeHead(405); res.end("Method not allowed"); return; }
     handleChat(req, res).catch((e) => {
       if (!res.headersSent) { res.writeHead(500, { "Content-Type": "application/json" }); res.end(JSON.stringify({ error: e.message })); }

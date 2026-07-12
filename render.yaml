@@ -1,0 +1,19 @@
+# Render Blueprint for the Meadow chat backend (the /api/chat endpoint).
+# The static site itself is hosted on GitHub Pages; this service only powers chat.
+#
+# To deploy: on https://render.com → New → Blueprint → connect this repo.
+# Render reads this file. You'll be prompted to set GEMINI_API_KEY (kept secret).
+services:
+  - type: web
+    name: meadow-vet-care-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.mjs
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false                               # set this in the Render dashboard (secret)
+      - key: GEMINI_MODEL
+        value: gemini-3-flash-preview
+      - key: ALLOWED_ORIGIN
+        value: https://rohithp619-cpu.github.io    # only allow the GitHub Pages site to call the API

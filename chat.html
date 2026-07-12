@@ -9,6 +9,7 @@
 <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+<script src="config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -78,6 +79,7 @@
 
 /* ------------------------------------------------------------------ config */
 const STORAGE_KEY = "meadow-vet-chat-threads-v1";
+const API_BASE = (window.MEADOW_CONFIG && window.MEADOW_CONFIG.apiBase) || "";
 const CLINIC_PHONE = "+353 1 000 0000";
 const SUGGESTIONS = [
   { icon: "📅", text: "How do I book an appointment for my dog?" },
@@ -125,27 +127,31 @@ let currentId = null;
 let status = "ready";        // ready | submitted | streaming | error
 let errorMessage = "";
 let abortController = null;
-const autoSent = new Set();
+let pendingPrompt = null;
 
 /* ------------------------------------------------------------------ routing */
-function navigate(path, replace = false) {
-  history[replace ? "replaceState" : "pushState"]({}, "", path);
-  route();
+// Hash-based so it works on any static host (e.g. GitHub Pages) and survives
+// reloads/deep-links: "#/" = welcome, "#/<threadId>" = a conversation.
+function threadHash(id) { return "#/" + encodeURIComponent(id); }
+
+function navigate(hash, replace = false) {
+  if (replace) { history.replaceState({}, "", hash); route(); }
+  else if (location.hash === hash) { route(); }
+  else { location.hash = hash; }   // triggers hashchange -> route()
 }
-window.addEventListener("popstate", route);
+window.addEventListener("hashchange", route);
 
 function route() {
   status = "ready"; errorMessage = "";
-  const path = location.pathname;
-  if (path.startsWith("/chat/")) {
-    const id = decodeURIComponent(path.slice("/chat/".length));
+  const id = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
+  if (id) {
     const thread = threads.find((t) => t.id === id);
-    if (!thread) return navigate("/chat", true);
+    if (!thread) return navigate("#/", true);
     currentId = id;
     renderChatView(thread);
   } else {
     currentId = null;
-    if (threads.length) return navigate("/chat/" + encodeURIComponent(threads[0].id), true);
+    if (threads.length) return navigate(threadHash(threads[0].id), true);
     renderWelcomeView();
   }
 }
@@ -155,14 +161,15 @@ function createThread() {
   const thread = { id: newId("t"), title: "New chat", updatedAt: Date.now(), messages: [] };
   threads.unshift(thread);
   saveThreads();
-  navigate("/chat/" + encodeURIComponent(thread.id));
+  navigate(threadHash(thread.id));
 }
 
 function startFromSuggestion(prompt) {
   const thread = { id: newId("t"), title: "New chat", updatedAt: Date.now(), messages: [] };
   threads.unshift(thread);
   saveThreads();
-  navigate("/chat/" + encodeURIComponent(thread.id) + "?q=" + encodeURIComponent(prompt));
+  pendingPrompt = { id: thread.id, text: prompt };
+  navigate(threadHash(thread.id));
 }
 
 function deleteThread(id) {
@@ -173,7 +180,7 @@ function deleteThread(id) {
   saveThreads();
   if (wasActive) {
     if (abortController) abortController.abort();
-    navigate(threads.length ? "/chat/" + encodeURIComponent(threads[0].id) : "/chat", true);
+    navigate(threads.length ? threadHash(threads[0].id) : "#/", true);
   } else {
     renderSidebarList();
   }
@@ -184,7 +191,7 @@ function sidebarHTML() {
   return `
   <aside class="hidden w-72 shrink-0 flex-col border-r border-border bg-background md:flex">
     <div class="flex flex-col gap-4 p-4">
-      <a href="/" data-nav class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
+      <a href="index.html" class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
         Back to site
       </a>
@@ -210,7 +217,7 @@ function threadListHTML() {
     const active = t.id === currentId;
     return `
     <div class="group relative">
-      <a href="/chat/${encodeURIComponent(t.id)}" data-nav class="flex items-center gap-2 rounded-xl px-3 py-2.5 pr-9 text-sm ${active ? "bg-card shadow-card font-medium" : "hover:bg-muted"}">
+      <a href="${threadHash(t.id)}" class="flex items-center gap-2 rounded-xl px-3 py-2.5 pr-9 text-sm ${active ? "bg-card shadow-card font-medium" : "hover:bg-muted"}">
         <span class="shrink-0 ${active ? "text-primary" : "text-muted-foreground"}">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </span>
@@ -242,7 +249,7 @@ function renderWelcomeView() {
       <button data-action="new" class="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-warm btn-scale">
         Start a new chat
       </button>
-      <a href="/" data-nav class="mt-6 text-sm text-muted-foreground hover:text-foreground md:hidden">← Back to site</a>
+      <a href="index.html" class="mt-6 text-sm text-muted-foreground hover:text-foreground md:hidden">← Back to site</a>
     </div>
   </main>`;
 }
@@ -296,12 +303,11 @@ function renderChatView(thread) {
   syncComposerButtons();
   scrollToBottom(false);
 
-  // Auto-send a suggestion prompt (once), then drop the query string.
-  const q = new URLSearchParams(location.search).get("q");
-  if (q && !autoSent.has(thread.id)) {
-    autoSent.add(thread.id);
-    history.replaceState({}, "", "/chat/" + encodeURIComponent(thread.id));
-    sendMessage(q);
+  // Auto-send a suggestion prompt once, if one is queued for this thread.
+  if (pendingPrompt && pendingPrompt.id === thread.id) {
+    const text = pendingPrompt.text;
+    pendingPrompt = null;
+    sendMessage(text);
   } else {
     focusInput();
   }
@@ -401,7 +407,7 @@ async function sendMessage(text) {
   abortController = new AbortController();
 
   try {
-    const res = await fetch("/api/chat", {
+    const res = await fetch(API_BASE + "/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: thread.messages.map(({ role, content }) => ({ role, content })) }),
@@ -479,10 +485,6 @@ function scrollToBottom(smooth = true) {
 
 /* ------------------------------------------------------------------ events */
 document.addEventListener("click", (e) => {
-  const nav = e.target.closest("a[data-nav]");
-  if (nav && nav.getAttribute("href").startsWith("/chat")) {
-    e.preventDefault(); navigate(nav.getAttribute("href")); return;
-  }
   const action = e.target.closest("[data-action]");
   if (!action) return;
   const kind = action.dataset.action;
