@@ -1,0 +1,150 @@
+{
+  "site": {
+    "name": "Meadow Vet Care",
+    "tagline": "Kind care for every paw, claw & feather.",
+    "description": "Meadow Vet Care is a modern Irish veterinary clinic offering 90+ services for dogs, cats, rabbits, small mammals and birds. Compassionate care, every visit.",
+    "country": "Ireland",
+    "language": "en"
+  },
+  "seo": {
+    "title": "Meadow Vet Care — Modern Irish Vet Clinic for Dogs, Cats & More",
+    "description": "Meadow Vet Care is a modern Irish veterinary clinic offering 90+ services for dogs, cats, rabbits, small mammals and birds. Compassionate care, every visit.",
+    "og": {
+      "title": "Meadow Vet Care — Modern Irish Vet Clinic",
+      "description": "90+ services for dogs, cats, rabbits, small mammals and birds — from a friendly Irish veterinary team.",
+      "type": "website"
+    },
+    "twitter": { "card": "summary_large_image" }
+  },
+  "theme": {
+    "fonts": {
+      "display": "Fraunces",
+      "body": "Inter"
+    },
+    "colors": {
+      "background": "#f6f9f1",
+      "foreground": "#1e2a22",
+      "card": "#ffffff",
+      "muted": "#eef2e7",
+      "mutedForeground": "#5f6b60",
+      "border": "#dfe6d5",
+      "primary": "#2f7a4d",
+      "primaryForeground": "#f6f9f1",
+      "primaryGlow": "#4fb37a",
+      "secondary": "#e7efd9",
+      "accent": "#e5a94b"
+    },
+    "gradients": {
+      "hero": "linear-gradient(135deg, #2f7a4d 0%, #4fb37a 100%)",
+      "soft": "linear-gradient(180deg, #f6f9f1 0%, #e7efd9 100%)"
+    },
+    "shadows": {
+      "warm": "0 20px 60px -20px rgba(47,122,77,0.35)",
+      "card": "0 8px 30px -12px rgba(30,42,34,0.18)"
+    },
+    "radius": "1rem"
+  },
+  "nav": {
+    "logo": { "label": "Meadow Vet Care", "icon": "paw" },
+    "links": [
+      { "label": "Services", "href": "#services" },
+      { "label": "Pets we treat", "href": "#pets" },
+      { "label": "About", "href": "#about" },
+      { "label": "Visit", "href": "#visit" }
+    ],
+    "cta": { "label": "Book a visit", "href": "#book" }
+  },
+  "hero": {
+    "eyebrow": "Modern Irish Vet Clinic",
+    "headline": "Kind care for every paw, claw & feather.",
+    "highlight": "paw, claw & feather",
+    "body": "Meadow Vet Care is a friendly Irish veterinary clinic offering 90+ services for dogs, cats, rabbits, small mammals and birds — with the calm, unhurried attention your pet deserves.",
+    "primaryCta": { "label": "Book an appointment", "href": "#book" },
+    "secondaryCta": { "label": "Call the clinic", "href": "tel:+35310000000", "icon": "phone" },
+    "rating": { "score": 4.9, "count": 380, "label": "happy families" },
+    "image": {
+      "alt": "Friendly Irish vet with a golden retriever puppy, a rabbit and a cat",
+      "width": 1536,
+      "height": 1024
+    },
+    "badge": { "eyebrow": "Same-day", "label": "appointments available", "icon": "clock" }
+  },
+  "pets": {
+    "eyebrow": "Pets we treat",
+    "heading": "From wagging tails to twitching whiskers",
+    "items": [
+      { "label": "Dogs", "icon": "dog", "emoji": "🐕" },
+      { "label": "Cats", "icon": "cat", "emoji": "🐈" },
+      { "label": "Rabbits", "icon": "rabbit", "emoji": "🐇" },
+      { "label": "Small mammals", "icon": "paw", "emoji": "🐹" },
+      { "label": "Birds", "icon": "bird", "emoji": "🐦" }
+    ]
+  },
+  "services": {
+    "eyebrow": "Services",
+    "heading": "Over 90 services under one welcoming roof",
+    "body": "From routine check-ups to advanced surgery, our vets combine gentle handling with modern, evidence-based medicine.",
+    "cta": { "label": "View all services", "href": "services.html" },
+    "items": [
+      { "icon": "stethoscope", "title": "Wellness Exams", "desc": "Nose-to-tail check-ups to keep your pet thriving year-round." },
+      { "icon": "shield-check", "title": "Vaccinations", "desc": "Full vaccination programmes for dogs, cats and exotic pets." },
+      { "icon": "heart", "title": "Dental Care", "desc": "Cleaning, extractions and gentle oral health treatments." },
+      { "icon": "sparkles", "title": "Surgery & Anaesthesia", "desc": "Modern theatres with careful monitoring at every step." },
+      { "icon": "paw-print", "title": "Microchipping", "desc": "Quick, painless ID so your pet always finds their way home." },
+      { "icon": "calendar", "title": "Puppy & Kitten Clinics", "desc": "Early-life visits, nutrition advice and behaviour support." }
+    ]
+  },
+  "about": {
+    "eyebrow": "About Meadow",
+    "heading": "A little Irish clinic with a very big heart.",
+    "body": "We built Meadow Vet Care around a simple idea: pets are family, and family deserves calm rooms, gentle hands, and honest advice. Our vets and nurses are trained across companion and exotic species — so whether you share your home with a Great Dane or a house rabbit, you're in expert hands.",
+    "stats": [
+      { "value": "90+", "label": "Services" },
+      { "value": "15k+", "label": "Visits a year" },
+      { "value": "4.9★", "label": "Client rating" }
+    ]
+  },
+  "testimonials": [
+    {
+      "name": "Aoife M., Dublin",
+      "pet": "with Bailey 🐕",
+      "rating": 5,
+      "quote": "The team treated Bailey like family. Calm, kind and genuinely brilliant vets."
+    },
+    {
+      "name": "Cillian O., Wicklow",
+      "pet": "with Luna 🐈",
+      "rating": 5,
+      "quote": "Booked online in 2 minutes. Luna's usually terrified of vets — she actually purred!"
+    },
+    {
+      "name": "Saoirse K., Bray",
+      "pet": "with Nibbles 🐰",
+      "rating": 5,
+      "quote": "Finally a clinic that really understands rabbits. Thoughtful, thorough and gentle."
+    }
+  ],
+  "visit": {
+    "heading": "Book a friendly, unhurried visit today.",
+    "body": "Same-day and evening appointments available. New patients always welcome.",
+    "phone": { "label": "+353 1 000 0000", "href": "tel:+35310000000" },
+    "email": { "label": "Email the clinic", "href": "mailto:hello@meadowvet.ie" },
+    "address": {
+      "line1": "12 Meadow Lane",
+      "line2": "Dublin, Ireland"
+    },
+    "hours": [
+      { "days": "Mon–Fri", "time": "8am – 8pm" },
+      { "days": "Sat", "time": "9am – 5pm" },
+      { "days": "Sun", "time": "Emergencies" }
+    ]
+  },
+  "footer": {
+    "copyright": "Meadow Vet Care. Made with care in Ireland.",
+    "links": [
+      { "label": "Services", "href": "#services" },
+      { "label": "Contact", "href": "#visit" },
+      { "label": "Privacy", "href": "#" }
+    ]
+  }
+}

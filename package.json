@@ -1,0 +1,11 @@
+{
+  "name": "meadow-vet-care",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Landing page, services catalogue and AI assistant for Meadow Vet Care, a modern Irish veterinary clinic",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "sync": "node scripts/sync-services.mjs"
+  }
+}

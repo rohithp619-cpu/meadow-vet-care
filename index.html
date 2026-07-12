@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Meadow Vet Care — Modern Irish Vet Clinic for Dogs, Cats & More</title>
+<meta name="description" content="Meadow Vet Care is a modern Irish veterinary clinic offering 90+ services for dogs, cats, rabbits, small mammals and birds. Compassionate care, every visit." />
+<meta property="og:title" content="Meadow Vet Care — Modern Irish Vet Clinic" />
+<meta property="og:description" content="90+ services for dogs, cats, rabbits, small mammals and birds — from a friendly Irish veterinary team." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --background: #f6f9f1;
+    --foreground: #1e2a22;
+    --card: #ffffff;
+    --muted: #eef2e7;
+    --muted-foreground: #5f6b60;
+    --border: #dfe6d5;
+    --primary: #2f7a4d;
+    --primary-foreground: #f6f9f1;
+    --primary-glow: #4fb37a;
+    --secondary: #e7efd9;
+    --accent: #e5a94b;
+    --gradient-hero: linear-gradient(135deg, #2f7a4d 0%, #4fb37a 100%);
+    --gradient-soft: linear-gradient(180deg, #f6f9f1 0%, #e7efd9 100%);
+    --shadow-warm: 0 20px 60px -20px rgba(47,122,77,0.35);
+    --shadow-card: 0 8px 30px -12px rgba(30,42,34,0.18);
+  }
+  html, body { background: var(--background); color: var(--foreground); font-family: "Inter", ui-sans-serif, system-ui, sans-serif; }
+  .font-serif { font-family: "Fraunces", ui-serif, Georgia, serif; }
+  .bg-background { background: var(--background); }
+  .bg-card { background: var(--card); }
+  .bg-muted { background: var(--muted); }
+  .bg-secondary { background: var(--secondary); }
+  .bg-primary { background: var(--primary); }
+  .bg-primary-10 { background: rgba(47,122,77,0.10); }
+  .bg-primary-5 { background: rgba(47,122,77,0.05); }
+  .text-foreground { color: var(--foreground); }
+  .text-muted-foreground { color: var(--muted-foreground); }
+  .text-primary { color: var(--primary); }
+  .text-primary-foreground { color: var(--primary-foreground); }
+  .text-accent { color: var(--accent); }
+  .fill-accent { fill: var(--accent); }
+  .border-border { border-color: var(--border); }
+  .border-primary-20 { border-color: rgba(47,122,77,0.20); }
+  .gradient-hero { background: var(--gradient-hero); }
+  .gradient-soft { background: var(--gradient-soft); }
+  .shadow-warm { box-shadow: var(--shadow-warm); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .card-hover { transition: transform .25s ease, box-shadow .25s ease; }
+  .card-hover:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+  .btn-scale { transition: transform .2s ease; }
+  .btn-scale:hover { transform: scale(1.02); }
+</style>
+</head>
+<body class="min-h-screen">
+
+<div id="app"></div>
+
+<a href="/chat" aria-label="Chat with Meadow"
+   class="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-warm btn-scale">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <span class="hidden sm:inline">Ask Meadow</span>
+</a>
+
+<script>
+const HERO_IMAGE_SRC = "https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=1536&q=80";
+
+const ICONS = {
+  paw: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="4" cy="8" r="2"/><circle cx="7.5" cy="14.5" r="2"/><circle cx="14.5" cy="14.5" r="2"/><path d="M8 21c0-2 4-3 4-3s4 1 4 3-1.5 2-4 2-4-1-4-2z"/></svg>',
+  arrow: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+  phone: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92V21a1 1 0 0 1-1.09 1A19.86 19.86 0 0 1 2 4.09 1 1 0 0 1 3 3h4.09a1 1 0 0 1 1 .75l1 4a1 1 0 0 1-.29 1L7 10.5a16 16 0 0 0 6.5 6.5l1.75-1.75a1 1 0 0 1 1-.29l4 1a1 1 0 0 1 .75 1z"/></svg>',
+  sparkle: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 10l-4.6 3.3L17 20l-5-3.5L7 20l1.6-6.7L4 10l6.1-1.2z"/></svg>',
+  clock: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  star: '<svg class="fill-accent text-accent" width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><polygon points="12 2 15 9 22 9.3 17 14 18.5 21 12 17.5 5.5 21 7 14 2 9.3 9 9"/></svg>'
+};
+
+const SERVICE_EMOJI = {
+  stethoscope: "🩺",
+  "shield-check": "🛡️",
+  heart: "❤️",
+  sparkles: "✨",
+  "paw-print": "🐾",
+  calendar: "📅"
+};
+
+function applyTheme(theme) {
+  const root = document.documentElement.style;
+  const kebab = (s) => s.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase());
+  for (const [k, v] of Object.entries(theme.colors || {})) root.setProperty("--" + kebab(k), v);
+  for (const [k, v] of Object.entries(theme.gradients || {})) root.setProperty("--gradient-" + k, v);
+  for (const [k, v] of Object.entries(theme.shadows || {})) root.setProperty("--shadow-" + k, v);
+}
+
+function highlightHeadline(headline, highlight) {
+  if (!highlight || !headline.includes(highlight)) return headline;
+  return headline.replace(highlight, `<span class="text-primary">${highlight}</span>`);
+}
+
+function renderNav(nav) {
+  return `
+<header class="sticky top-0 z-40 border-b border-border backdrop-blur" style="background: rgba(246,249,241,0.85);">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-6">
+    <a href="#top" class="flex items-center gap-2">
+      <span class="grid h-9 w-9 place-items-center rounded-full bg-primary text-primary-foreground shadow-warm">${ICONS[nav.logo.icon] || ICONS.paw}</span>
+      <span class="font-serif text-xl font-semibold tracking-tight">${nav.logo.label}</span>
+    </a>
+    <nav class="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
+      ${nav.links.map((l) => `<a href="${l.href}" class="hover:text-foreground">${l.label}</a>`).join("\n      ")}
+    </nav>
+    <a href="${nav.cta.href}" class="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-warm btn-scale">
+      ${nav.cta.label}
+      ${ICONS.arrow}
+    </a>
+  </div>
+</header>`;
+}
+
+function renderHero(hero) {
+  const stars = ICONS.star.repeat(Math.round(hero.rating.score));
+  return `
+<section id="top" class="relative overflow-hidden">
+  <div class="absolute inset-0 gradient-soft opacity-80 pointer-events-none" aria-hidden="true"></div>
+  <div class="relative mx-auto grid max-w-6xl gap-12 px-4 py-16 md:grid-cols-2 md:items-center md:px-6 md:py-24">
+    <div>
+      <span class="inline-flex items-center gap-2 rounded-full border border-primary-20 bg-primary-5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+        ${ICONS.sparkle}
+        ${hero.eyebrow}
+      </span>
+      <h1 class="mt-5 font-serif text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
+        ${highlightHeadline(hero.headline, hero.highlight)}
+      </h1>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">${hero.body}</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="${hero.primaryCta.href}" class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-warm btn-scale">
+          ${hero.primaryCta.label}
+          ${ICONS.arrow}
+        </a>
+        <a href="${hero.secondaryCta.href}" class="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground hover:bg-secondary">
+          ${ICONS[hero.secondaryCta.icon] || ""}
+          ${hero.secondaryCta.label}
+        </a>
+      </div>
+      <div class="mt-8 flex items-center gap-6 text-sm text-muted-foreground">
+        <div class="flex items-center gap-1.5">
+          <div class="flex">${stars}</div>
+          <span class="font-medium text-foreground">${hero.rating.score}</span>
+          <span>· ${hero.rating.count}+ ${hero.rating.label}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative">
+      <div class="absolute -inset-4 rounded-[2rem] bg-primary-10 blur-2xl" aria-hidden="true"></div>
+      <img
+        src="${HERO_IMAGE_SRC}"
+        alt="${hero.image.alt}"
+        width="${hero.image.width}" height="${hero.image.height}"
+        class="relative aspect-[4/3] w-full rounded-[2rem] object-cover shadow-warm" />
+      <div class="absolute -bottom-6 -left-4 hidden items-center gap-3 rounded-2xl bg-card p-4 shadow-card md:flex">
+        <div class="grid h-11 w-11 place-items-center rounded-full bg-primary-10 text-primary">${ICONS[hero.badge.icon] || ICONS.clock}</div>
+        <div>
+          <div class="text-xs uppercase tracking-wider text-muted-foreground">${hero.badge.eyebrow}</div>
+          <div class="text-sm font-semibold">${hero.badge.label}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+
+function renderPets(pets) {
+  return `
+<section id="pets" class="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
+  <div class="mb-10 text-center">
+    <p class="text-sm font-semibold uppercase tracking-widest text-primary">${pets.eyebrow}</p>
+    <h2 class="mt-2 font-serif text-3xl font-semibold tracking-tight md:text-4xl">${pets.heading}</h2>
+  </div>
+  <div class="grid grid-cols-2 gap-3 sm:grid-cols-5">
+    ${pets.items.map((p) => `
+    <div class="card-hover flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-6 text-center">
+      <div class="grid h-14 w-14 place-items-center rounded-full bg-secondary text-primary">${p.emoji}</div>
+      <span class="font-medium">${p.label}</span>
+    </div>`).join("")}
+  </div>
+</section>`;
+}
+
+function renderServices(services) {
+  return `
+<section id="services" class="relative">
+  <div class="absolute inset-0 bg-secondary" style="opacity:.5" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-24">
+    <div class="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold uppercase tracking-widest text-primary">${services.eyebrow}</p>
+        <h2 class="mt-2 font-serif text-3xl font-semibold tracking-tight md:text-4xl">${services.heading}</h2>
+        <p class="mt-4 text-muted-foreground">${services.body}</p>
+      </div>
+      <a href="${services.cta.href}" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">${services.cta.label} →</a>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      ${services.items.map((s) => `
+      <article class="card-hover rounded-3xl border border-border bg-card p-7">
+        <div class="mb-5 grid h-12 w-12 place-items-center rounded-2xl text-primary-foreground gradient-hero">${SERVICE_EMOJI[s.icon] || "🐾"}</div>
+        <h3 class="font-serif text-xl font-semibold">${s.title}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">${s.desc}</p>
+      </article>`).join("")}
+    </div>
+  </div>
+</section>`;
+}
+
+function renderAbout(about, testimonials) {
+  return `
+<section id="about" class="mx-auto grid max-w-6xl gap-12 px-4 py-20 md:grid-cols-2 md:items-center md:px-6 md:py-24">
+  <div>
+    <p class="text-sm font-semibold uppercase tracking-widest text-primary">${about.eyebrow}</p>
+    <h2 class="mt-2 font-serif text-3xl font-semibold tracking-tight md:text-4xl">${about.heading}</h2>
+    <p class="mt-5 leading-relaxed text-muted-foreground">${about.body}</p>
+    <div class="mt-8 grid grid-cols-3 gap-4">
+      ${about.stats.map((s) => `
+      <div class="rounded-2xl border border-border bg-card p-5">
+        <div class="font-serif text-3xl font-semibold text-primary">${s.value}</div>
+        <div class="mt-1 text-xs uppercase tracking-wider text-muted-foreground">${s.label}</div>
+      </div>`).join("")}
+    </div>
+  </div>
+  <div class="grid gap-4">
+    ${testimonials.map((t) => `
+    <figure class="rounded-3xl border border-border bg-card p-6 shadow-card">
+      <div class="flex gap-1 text-accent">${"★".repeat(t.rating)}</div>
+      <blockquote class="mt-3 text-base leading-relaxed">"${t.quote}"</blockquote>
+      <figcaption class="mt-4 text-sm text-muted-foreground"><span class="font-semibold text-foreground">${t.name}</span> ${t.pet}</figcaption>
+    </figure>`).join("")}
+  </div>
+</section>`;
+}
+
+function renderVisit(visit) {
+  return `
+<section id="visit" class="relative overflow-hidden">
+  <div class="absolute inset-0 gradient-hero" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-6xl px-4 py-20 text-primary-foreground md:px-6 md:py-24">
+    <div class="grid gap-12 md:grid-cols-2 md:items-center">
+      <div>
+        <h2 id="book" class="font-serif text-4xl font-semibold leading-tight md:text-5xl">${visit.heading}</h2>
+        <p class="mt-4 max-w-lg" style="color:rgba(246,249,241,0.85)">${visit.body}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="${visit.phone.href}" class="inline-flex items-center gap-2 rounded-full bg-background px-6 py-3 text-sm font-semibold text-foreground btn-scale">📞 ${visit.phone.label}</a>
+          <a href="${visit.email.href}" class="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold text-primary-foreground" style="border-color:rgba(246,249,241,0.4)">${visit.email.label}</a>
+        </div>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="rounded-3xl p-6 backdrop-blur" style="background:rgba(246,249,241,0.12)">
+          <div class="text-2xl">📍</div>
+          <h3 class="mt-3 font-serif text-lg font-semibold">Find us</h3>
+          <p class="mt-1 text-sm" style="color:rgba(246,249,241,0.85)">${visit.address.line1}<br />${visit.address.line2}</p>
+        </div>
+        <div class="rounded-3xl p-6 backdrop-blur" style="background:rgba(246,249,241,0.12)">
+          <div class="text-2xl">⏰</div>
+          <h3 class="mt-3 font-serif text-lg font-semibold">Opening hours</h3>
+          <p class="mt-1 text-sm" style="color:rgba(246,249,241,0.85)">${visit.hours.map((h) => `${h.days} · ${h.time}`).join("<br />")}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+
+function renderFooter(footer) {
+  return `
+<footer class="border-t border-border bg-background">
+  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted-foreground md:flex-row md:px-6">
+    <div class="flex items-center gap-2">
+      <span class="text-primary">🐾</span>
+      <span>© ${new Date().getFullYear()} ${footer.copyright}</span>
+    </div>
+    <div class="flex gap-6">
+      ${footer.links.map((l) => `<a href="${l.href}" class="hover:text-foreground">${l.label}</a>`).join("\n      ")}
+    </div>
+  </div>
+</footer>`;
+}
+
+fetch("./content.json")
+  .then((r) => {
+    if (!r.ok) throw new Error(`Failed to load content.json (${r.status})`);
+    return r.json();
+  })
+  .then((data) => {
+    applyTheme(data.theme);
+    document.title = data.seo.title;
+    document.getElementById("app").innerHTML = [
+      renderNav(data.nav),
+      renderHero(data.hero),
+      renderPets(data.pets),
+      renderServices(data.services),
+      renderAbout(data.about, data.testimonials),
+      renderVisit(data.visit),
+      renderFooter(data.footer)
+    ].join("");
+  })
+  .catch((err) => {
+    document.getElementById("app").innerHTML =
+      `<div class="mx-auto max-w-xl px-4 py-24 text-center text-muted-foreground">Could not load site content: ${err.message}</div>`;
+  });
+</script>
+</body>
+</html>
